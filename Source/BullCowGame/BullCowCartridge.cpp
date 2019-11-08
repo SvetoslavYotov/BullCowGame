@@ -4,10 +4,10 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-	
+	PrintLine("Welcome to Bulls and Cows!\nA fun word game!");
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
-
+	ClearScreen();
 }
