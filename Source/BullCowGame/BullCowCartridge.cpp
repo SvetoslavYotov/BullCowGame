@@ -6,12 +6,14 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     Super::BeginPlay();
 	PrintLine(TEXT("Welcome to Bulls and Cows!\nA fun word game!"));
 	PrintLine(TEXT("Guess the 6 letter word."));
+	InitialiseGame();
+	
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
 	ClearScreen();
-	FString HiddenWord = TEXT("planet");
+	
 	if (Input == HiddenWord)
 	{
 		PrintLine(TEXT("Congratulations, you have won the game!"));
@@ -23,4 +25,10 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 	
 
 
+}
+
+void UBullCowCartridge::InitialiseGame()
+{
+	HiddenWord = TEXT("planet");
+	Lives = (HiddenWord.Len() - 1) * 2;
 }
