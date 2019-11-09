@@ -7,7 +7,7 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-	
+
 	InitialiseGame(); // Setting up the game
 	
 }
@@ -29,7 +29,7 @@ void UBullCowCartridge::InitialiseGame()
 {
 	PrintLine(TEXT("Welcome to Bulls and Cows!"));
 
-	HiddenWord = TEXT("planet");
+	HiddenWord = HiddenWordsList[FMath::RandRange(0, HiddenWordsList.Num())];
 	Lives = (HiddenWord.Len() - 1) * 2;
 	bGameOver = false;
 	
@@ -43,7 +43,7 @@ void UBullCowCartridge::EndGame()
 	PrintLine(TEXT("Press enter to play again."));
 }
 
-void UBullCowCartridge::ProcessGuess(FString Guess)
+void UBullCowCartridge::ProcessGuess(const FString& Guess)
 {
 	if (Guess == HiddenWord)
 	{
@@ -68,6 +68,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
 				PrintLine(TEXT("You have %i lives remaining"), Lives);
 				return;
 			}
+			PrintLine(TEXT("Wrong guess. You have %i lives remaining!"), Lives);
 		}
 		else
 		{
@@ -79,7 +80,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
 	
 }
 
-bool UBullCowCartridge::IsIsogram(FString Guess) const
+bool UBullCowCartridge::IsIsogram(const FString& Guess) const
 {
 	
 	for (int32 Index = 0; Index < Guess.Len(); Index++)
