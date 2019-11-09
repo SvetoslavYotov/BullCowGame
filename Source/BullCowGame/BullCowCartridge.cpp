@@ -51,7 +51,6 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
 	else
 	{
 		--Lives;
-		
 		if (Lives > 0)
 		{
 			if (Guess.Len() != HiddenWord.Len())
@@ -79,5 +78,16 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
 
 bool UBullCowCartridge::IsIsogram(FString Guess) const
 {
+	
+	for (int32 Index = 0; Index < Guess.Len(); Index++)
+	{
+		for (int32 Comparison = Index + 1; Comparison < Guess.Len(); Comparison++)
+		{
+			if (Guess[Index] == Guess[Comparison])
+			{
+				return false;
+			}
+		}
+	}
 	return true;
 }
