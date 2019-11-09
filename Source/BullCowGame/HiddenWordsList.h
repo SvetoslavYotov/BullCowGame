@@ -29,6 +29,8 @@ const TArray<FString> HiddenWordsList =
 	TEXT("able"),
 	TEXT("about"),
 	TEXT("above"),
-	TEXT("below")
+	TEXT("below"),
+	TEXT("wife"),
+	TEXT("husband")
 };
 

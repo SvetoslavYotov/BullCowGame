@@ -7,9 +7,7 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-
 	InitialiseGame(); // Setting up the game
-	
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
@@ -29,7 +27,7 @@ void UBullCowCartridge::InitialiseGame()
 {
 	PrintLine(TEXT("Welcome to Bulls and Cows!"));
 
-	HiddenWord = HiddenWordsList[FMath::RandRange(0, HiddenWordsList.Num())];
+	HiddenWord = HiddenWordsList[FMath::RandRange(0, HiddenWordsList.Num() - 1)];
 	Lives = (HiddenWord.Len() - 1) * 2;
 	bGameOver = false;
 	
@@ -68,7 +66,9 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
 				PrintLine(TEXT("You have %i lives remaining"), Lives);
 				return;
 			}
-			PrintLine(TEXT("Wrong guess. You have %i lives remaining!"), Lives);
+			FBullCowCount Score = GetBullsCows(Guess);
+			PrintLine(TEXT("You have %i Bulls and %i Cows"), Score.Bulls, Score.Cows);
+			PrintLine(TEXT("You have %i lives remaining."), Lives);
 		}
 		else
 		{
@@ -77,12 +77,10 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
 			EndGame();
 		}
 	}
-	
 }
 
 bool UBullCowCartridge::IsIsogram(const FString& Guess) const
 {
-	
 	for (int32 Index = 0; Index < Guess.Len(); Index++)
 	{
 		for (int32 Comparison = Index + 1; Comparison < Guess.Len(); Comparison++)
@@ -94,4 +92,26 @@ bool UBullCowCartridge::IsIsogram(const FString& Guess) const
 		}
 	}
 	return true;
+}
+
+FBullCowCount UBullCowCartridge::GetBullsCows(const FString& Guess) const
+{
+	FBullCowCount Count;
+	for (int32 GuessIndex = 0; GuessIndex < Guess.Len(); GuessIndex++)
+	{
+		if (Guess[GuessIndex] == HiddenWord[GuessIndex])
+		{
+			Count.Bulls++;
+			continue;
+		}
+		for (int32 HiddenIndex = 0; HiddenIndex < HiddenWord.Len(); HiddenIndex++)
+		{
+			if (Guess[GuessIndex] == HiddenWord[HiddenIndex])
+			{
+				Count.Cows++;
+			}
+		}
+	}
+
+	return Count;
 }
